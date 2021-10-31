@@ -84,6 +84,7 @@ outputConfig() {
   echo "NOTED_FILE_NAME_DATE_FORMAT=${NOTED_FILE_NAME_DATE_FORMAT}"
   echo "NOTED_TIMESTAMP_FORMAT=${NOTED_TIMESTAMP_FORMAT}"
   echo "NOTED_TEMPLATE_FILE=${NOTED_TEMPLATE_FILE:-<<DEFAULT>>}"
+  echo "NOTED_VIEW_HANDLER=${NOTED_VIEW_HANDLER:-<<DEFAULT>>}"
 }
 
 validate() {
@@ -97,15 +98,21 @@ version() {
   echo "noted v${VERSION}"
 }
 
-view() {
-  open "${htmlFile}"
+view( ) { #file_name
+  if [[ "${NOTED_VIEW_HANDLER}" == "mkdocs" ]]; then
+    mkdocs build -f "${NOTED_MARKDOWN_HOME}/../mkdocs.yml"
+    mkdocs serve -f "${NOTED_MARKDOWN_HOME}/../mkdocs.yml" &
+    xdg-open "http://127.0.0.1:8000/$1"
+  else
+    open "${markdownFile}"
+  fi
+  
 }
-
 #
 # END FUNCTIONS
 #
 
-VERSION="0.0.2"
+VERSION="0.0.3"
 
 #
 # Default Settings
@@ -122,6 +129,7 @@ NOTED_TIMESTAMP_FORMAT="+%H:%M:%S UTC"
 NOTED_TEMPLATE_FILE=""
 # keep the directory where notes are stored here
 NOTED_MARKDOWN_HOME=$HOME/Documents/notes
+NOTED_VIEW_HANDLER=""
 
 #
 # Override with any additional settings
@@ -144,7 +152,11 @@ elif [[ "${subcommand}" == "edit" ]] || [[ "${subcommand}" == "view" ]]; then
     arg="${currDate}"
   fi
   markdownFile "${arg}"
-  edit "${markdownFile}"
+  if [[ "${subcommand}" == "edit" ]]; then
+    edit "${markdownFile}"
+  else
+    view "${arg}"
+  fi
 elif [[ "${subcommand}" == "grep" ]]; then
   shift
   ngrep "$@"

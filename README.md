@@ -2,7 +2,7 @@
 
 # noted
 
-_Lightweight CLI for taking markdown notes in a journal-like (time-seried) fashion on macOS._
+_Lightweight CLI for taking markdown notes in a journal-like (time-seried) fashion on linux._
 
 ## Contents
 
@@ -53,7 +53,7 @@ cd $HOME/Documents
 3. Clone this repository to your Documents folder.
 
 ```shell
-git -C $HOME/Documents clone git@github.com:scottashipp/noted.git
+git -C $HOME/Documents clone https://github.com/TonyWill/noted.git
 ```
 
 4. Symlink the file:
@@ -68,7 +68,7 @@ ln -s $HOME/Documents/noted/noted /usr/local/bin/noted
 noted version
 ```
 
-If the above outputs `noted v0.0.1` then all is well. Check out the [Typical usage](#typical-usage) section below to take your first notes!
+If the above outputs `noted v0.0.3` then all is well. Check out the [Typical usage](#typical-usage) section below to take your first notes!
 
 ### Optional steps
 
@@ -211,9 +211,28 @@ Besides supplying a custom configuration, you probably want to add the following
 
 ## Usage with a static site generator
 
-Some people may prefer to use `noted` with a static site generator like [mkdocs](https://www.mkdocs.org)
-, [Maven site](https://maven.apache.org/plugins/maven-site-plugin/), or [Hugo](https://gohugo.io/). Those are just a few examples. Doing so will allow you to
+Some people may prefer to use `noted` with a static site generator like [mkdocs](https://www.mkdocs.org).
+
+Doing so will allow you to
 view your notes in HTML format locally.
+
+Currently, the command to [install mkdocs](https://www.mkdocs.org/getting-started/) is:
+
+````
+pip3 install mkdocs
+````
+
+In order to [create a new mkdocs project](https://www.mkdocs.org/getting-started/) to view your notes in html
+go to your Documents directory `$HOME/Documents`
+and run:
+
+````bash
+mkdocs new <project-folder>
+# for example 'mkdocs new notes'
+````
+The above command will create a sub folder called docs where mkdocs will expect your files to be saved.
+You can add `NOTED_MARKDOWN_HOME=$HOME/Documents/notes/docs`
+setting in the `.notesconfig` file in your home directory to correct for this.
 
 ## Change default editor
 `noted` used `open` command to edit a markdown file. Usually `open` command is an alias and can be changed using the following commands.
@@ -221,8 +240,10 @@ view your notes in HTML format locally.
 
 Add a new alternative to `open` command:
 
-```
+```bash
 sudo update-alternatives --install /usr/bin/open open <path> <priority>
+# example for using vscode as default
+sudo update-alternatives --install /usr/bin/open open /user/bin/code 30
 ```
 
 Choose the new alternative
