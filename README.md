@@ -148,6 +148,7 @@ The following default values are configured.
 | NOTED_FILE_NAME_DATE_FORMAT | The date format string used as the file name for new notes. | `"+%Y-%m-%d"` | 
 | NOTED_TIMESTAMP_FORMAT | The timestamp format for the timestamp placed on new entries. | `"+%H:%M:%S UTC"` |
 | NOTED_TEMPLATE_FILE | A file containing a Markdown-formatted entry template to use. | `""` <br /> (It is empty by default. Which means the script's own default template will be used.) |
+| NOTED_VIEW_HANDLER | The name of the static html generator tool used for viewing notes.| `""` <br /> (It is empty by default. Which means the script's own default template will be used. It also accepts `mkdocs`) |
 
 ### Configuring custom values
 
